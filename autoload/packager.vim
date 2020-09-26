@@ -3,7 +3,8 @@ let s:packager = {}
 let s:slash = exists('+shellslash') && !&shellslash ? '\' : '/'
 let s:has_timers = has('timers')
 let s:defaults = {
-      \ 'dir': printf('%s%s%s', substitute(split(&packpath, ',')[0], '\(\\\|\/\)', s:slash, 'g'), s:slash, 'pack'.s:slash.'packager'),
+      \ 'dir': printf('%s%s%s', substitute(split(&packpath, ',')[0], '\(\\\|\/\)', s:slash, 'g'), s:slash, 'pack'),
+      \ 'package': 'packager'
       \ 'depth': 5,
       \ 'jobs': 8,
       \ 'window_cmd': 'vertical topleft new',
@@ -21,6 +22,9 @@ function! s:packager.new(opts) abort
   if has_key(a:opts, 'dir')
     let l:instance.dir = substitute(fnamemodify(a:opts.dir, ':p'), '\'.s:slash.'$', '', '')
   endif
+  if has_key(a:opts, 'package')
+    let l:instance.package = a:opts.package
+  endif
   let l:instance.plugins = {}
   let l:instance.processed_plugins = []
   let l:instance.remaining_jobs = 0
@@ -30,8 +34,8 @@ function! s:packager.new(opts) abort
   let l:instance.icons_str = join(values(packager#utils#status_icons()), '')
   let l:instance.timer = -1
   let l:instance.last_render_time = reltime()
-  silent! call mkdir(printf('%s%s%s', l:instance.dir, s:slash, 'opt'), 'p')
-  silent! call mkdir(printf('%s%s%s', l:instance.dir, s:slash, 'start'), 'p')
+  silent! call mkdir(printf('%s%s%s%s%s', l:instance.dir, s:slash, l:instance.package, s:slash, 'opt'), 'p')
+  silent! call mkdir(printf('%s%s%s%s%s', l:instance.dir, s:slash, l:instance.package, s:slash, 'start'), 'p')
   return l:instance
 endfunction
 
@@ -109,7 +113,7 @@ function! s:packager.update(opts) abort
 endfunction
 
 function! s:packager.clean() abort
-  let l:folders = glob(printf('%s%s*%s*', self.dir, s:slash, s:slash), 0, 1)
+  let l:folders = glob(printf('%s%s*%s*%s*', self.dir, s:slash, s:slash, s:slash), 0, 1)
   let self.processed_plugins = values(self.plugins)
   let l:plugins = []
   for l:plugin in self.processed_plugins

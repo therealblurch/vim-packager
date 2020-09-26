@@ -135,6 +135,7 @@ Example: for github repositories, `kristijanhusak/vim-packager` is enough, for s
 
 Options:
 * `name` - Custom name of the plugin. If ommited, last part of url explained above is taken (example: `vim-packager`, in `kristijanhusak/vim-packager`)
+* `package` - Name of the pack subdirectory in which to install the plugin.  Default: dir option used in package#init()
 * `type` - In which folder to install the plugin. Plugins that are loaded on demand (with `packadd`), goes to `opt` directory,
 where plugins that are auto loaded goes to `start` folder. Default: `start`
 * `branch` - git branch to use. Default: '' (Uses the default from the repository, usually master)

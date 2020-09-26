@@ -19,7 +19,11 @@ function! s:plugin.new(name, opts, packager) abort
   endif
   let l:instance.packager = a:packager
   let l:instance.name = !empty(l:instance.name) ? l:instance.name : split(a:name, '/')[-1]
-  let l:instance.dir = printf('%s%s%s%s%s', a:packager.dir, s:slash, l:instance.type, s:slash, l:instance.name)
+  if  !has_key(l:instance, 'package') || empty(l:instance.package)
+    let l:instance.dir = printf('%s%s%s%s%s', a:packager.dir, s:slash, l:instance.type, s:slash, l:instance.name)
+  else
+    let l:instance.dir = printf('%s%s%s%s%s%s%s', 'pack', s:slash, l:instance.package, s:slash, l:instance.type, s:slash, l:instance.name)
+  endif
   let l:instance.local = get(l:instance, 'local', 0)
   let l:instance.rtp_dir = ''
   if !empty(l:instance.rtp)

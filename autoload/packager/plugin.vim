@@ -245,7 +245,7 @@ function! s:plugin.symlink_rtp() abort
     return 0
   endif
 
-  let l:dir = printf('%s/%s', self.dir, self.rtp)
+  let l:dir = printf('%s/%s', self.name, self.rtp)
   let l:symlink_cmd = packager#utils#symlink(l:dir, self.rtp_dir)
 
   if !empty(l:symlink_cmd)

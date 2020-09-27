@@ -4,7 +4,7 @@ let s:slash = exists('+shellslash') && !&shellslash ? '\' : '/'
 let s:has_timers = has('timers')
 let s:defaults = {
       \ 'dir': printf('%s%s%s', substitute(split(&packpath, ',')[0], '\(\\\|\/\)', s:slash, 'g'), s:slash, 'pack'),
-      \ 'package': 'packager'
+      \ 'package': 'packager',
       \ 'depth': 5,
       \ 'jobs': 8,
       \ 'window_cmd': 'vertical topleft new',
